@@ -8,371 +8,270 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --card: #1a1a1a;
-    --card-hover: #222;
-    --accent: #FF6B35;
-    --accent2: #FFD23F;
-    --text: #f5f5f5;
-    --text-sub: #999;
-    --radius: 16px;
-    --glow: 0 0 30px rgba(255,107,53,0.15);
+    --bg:#0a0a0a;--card:#1a1a1a;--card-hover:#222;
+    --accent:#FF6B35;--accent2:#FFD23F;
+    --text:#f5f5f5;--text-sub:#999;--radius:16px;
+    --glow:0 0 30px rgba(255,107,53,0.15);
   }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  /* 배경 그라디언트 */
-  body::before {
-    content: '';
-    position: fixed;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle at 30% 20%, rgba(255,107,53,0.08) 0%, transparent 50%),
-                radial-gradient(circle at 70% 80%, rgba(255,210,63,0.05) 0%, transparent 50%);
-    z-index: -1;
-    animation: bgFloat 20s ease-in-out infinite alternate;
-  }
-  @keyframes bgFloat {
-    0% { transform: translate(0,0) rotate(0deg); }
-    100% { transform: translate(-5%,3%) rotate(3deg); }
-  }
-
-  .container {
-    max-width: 440px;
-    margin: 0 auto;
-    padding: 40px 20px 60px;
-  }
-
-  /* 프로필 헤더 */
-  .profile {
-    text-align: center;
-    margin-bottom: 32px;
-    animation: fadeUp 0.6s ease-out;
-  }
-  .profile-img {
-    width: 90px; height: 90px;
-    border-radius: 50%;
-    border: 3px solid var(--accent);
-    box-shadow: var(--glow);
-    margin-bottom: 14px;
-    object-fit: cover;
-    background: var(--card);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 40px;
-    margin-left: auto; margin-right: auto;
-  }
-  .profile h1 {
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -0.5px;
-    margin-bottom: 6px;
-  }
-  .profile h1 span {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .profile p {
-    font-size: 13px;
-    color: var(--text-sub);
-    line-height: 1.5;
-  }
-
-  /* 카테고리 탭 */
-  .tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    animation: fadeUp 0.7s ease-out;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab {
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: 1px solid #333;
-    background: transparent;
-    color: var(--text-sub);
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-  }
-  .tab.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-    font-weight: 700;
-  }
-  .tab:hover { border-color: var(--accent); color: var(--text); }
-
-  /* 상품 카드 */
-  .products { display: flex; flex-direction: column; gap: 12px; }
-  .product-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    text-decoration: none;
-    color: var(--text);
-    transition: all 0.25s ease;
-    border: 1px solid transparent;
-    opacity: 0;
-    transform: translateY(16px);
-    animation: fadeUp 0.5s ease-out forwards;
-  }
-  .product-card:hover {
-    background: var(--card-hover);
-    border-color: rgba(255,107,53,0.3);
-    box-shadow: var(--glow);
-    transform: translateY(-2px) !important;
-  }
-  .card-emoji {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(255,107,53,0.15), rgba(255,210,63,0.1));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-  }
-  .card-info { flex: 1; min-width: 0; }
-  .card-info h3 {
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .card-info p {
-    font-size: 11px;
-    color: var(--text-sub);
-  }
-  .card-arrow {
-    color: var(--accent);
-    font-size: 18px;
-    flex-shrink: 0;
-    transition: transform 0.2s;
-  }
-  .product-card:hover .card-arrow { transform: translateX(4px); }
-
-  /* NEW 뱃지 */
-  .badge-new {
-    background: var(--accent);
-    color: #fff;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-left: 6px;
-    vertical-align: middle;
-  }
-
-  /* 빈 상태 */
-  .empty {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--text-sub);
-    font-size: 14px;
-  }
-
-  /* 푸터 */
-  .footer {
-    text-align: center;
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #222;
-    animation: fadeUp 1s ease-out;
-  }
-  .footer p {
-    font-size: 11px;
-    color: #555;
-    line-height: 1.6;
-  }
-  .footer a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  /* 로딩 스피너 */
-  .loading {
-    text-align: center;
-    padding: 40px;
-  }
-  .spinner {
-    width: 32px; height: 32px;
-    border: 3px solid #333;
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* SNS 링크 */
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 28px;
-    animation: fadeUp 0.75s ease-out;
-  }
-  .social-btn {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: var(--card);
-    border: 1px solid #333;
-    display: flex; align-items: center; justify-content: center;
-    text-decoration: none;
-    font-size: 20px;
-    transition: all 0.2s;
-  }
-  .social-btn:hover {
-    border-color: var(--accent);
-    background: var(--card-hover);
-    transform: scale(1.1);
-  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+  body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 20%,rgba(255,107,53,0.08) 0%,transparent 50%),radial-gradient(circle at 70% 80%,rgba(255,210,63,0.05) 0%,transparent 50%);z-index:-1;animation:bgFloat 20s ease-in-out infinite alternate;}
+  @keyframes bgFloat{0%{transform:translate(0,0) rotate(0deg);}100%{transform:translate(-5%,3%) rotate(3deg);}}
+  .container{max-width:440px;margin:0 auto;padding:40px 20px 60px;}
+  .profile{text-align:center;margin-bottom:24px;animation:fadeUp .6s ease-out;}
+  .profile-img{width:90px;height:90px;border-radius:50%;border:3px solid var(--accent);box-shadow:var(--glow);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:40px;background:var(--card);}
+  .profile h1{font-size:22px;font-weight:900;letter-spacing:-.5px;margin-bottom:6px;}
+  .profile h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .profile p{font-size:13px;color:var(--text-sub);line-height:1.5;}
+  .social-links{display:flex;justify-content:center;gap:12px;margin-bottom:20px;animation:fadeUp .7s ease-out;}
+  .social-btn{width:44px;height:44px;border-radius:50%;background:var(--card);border:1px solid #333;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:20px;transition:all .2s;}
+  .social-btn:hover{border-color:var(--accent);background:var(--card-hover);transform:scale(1.1);}
+  .search-wrap{position:relative;margin-bottom:16px;animation:fadeUp .75s ease-out;}
+  .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;color:#555;pointer-events:none;}
+  .search-input{width:100%;padding:12px 42px 12px 42px;border-radius:12px;border:1px solid #333;background:var(--card);color:var(--text);font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;}
+  .search-input::placeholder{color:#555;}
+  .search-input:focus{border-color:var(--accent);}
+  .search-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:#333;border:none;color:#999;width:22px;height:22px;border-radius:50%;font-size:12px;cursor:pointer;display:none;align-items:center;justify-content:center;}
+  .search-clear.show{display:flex;}
+  .result-count{font-size:12px;color:var(--text-sub);margin-bottom:12px;padding-left:2px;}
+  .tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px;animation:fadeUp .8s ease-out;-ms-overflow-style:none;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{padding:8px 16px;border-radius:20px;border:1px solid #333;background:transparent;color:var(--text-sub);font-size:13px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:all .2s;}
+  .tab.active{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:700;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .products{display:flex;flex-direction:column;gap:10px;}
+  .product-card{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:var(--radius);padding:12px 14px;text-decoration:none;color:var(--text);transition:all .25s ease;border:1px solid transparent;opacity:0;transform:translateY(12px);animation:fadeUp .4s ease-out forwards;}
+  .product-card:hover{background:var(--card-hover);border-color:rgba(255,107,53,0.3);box-shadow:var(--glow);transform:translateY(-2px)!important;}
+  .card-thumb{width:52px;height:52px;border-radius:8px;background:#222;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .card-thumb img{width:100%;height:100%;object-fit:cover;border-radius:8px;}
+  .card-thumb-emoji{font-size:22px;}
+  .card-info{flex:1;min-width:0;}
+  .card-info h3{font-size:13px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.4;}
+  .card-info p{font-size:11px;color:var(--text-sub);}
+  .card-arrow{color:var(--accent);font-size:18px;flex-shrink:0;transition:transform .2s;}
+  .product-card:hover .card-arrow{transform:translateX(4px);}
+  .badge-new{background:var(--accent);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle;}
+  .badge-num{background:#333;color:var(--accent);font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;margin-right:5px;min-width:16px;text-align:center;display:inline-block;}
+  mark{background:rgba(255,107,53,0.3);color:var(--text);border-radius:2px;padding:0 1px;}
+  .empty{text-align:center;padding:40px 20px;color:var(--text-sub);font-size:14px;line-height:1.6;}
+  .pagination{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:18px;}
+  .page-btn{width:32px;height:32px;border-radius:8px;background:var(--card);border:1px solid #333;color:var(--text-sub);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;font-family:inherit;transition:all .2s;}
+  .page-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:700;}
+  .page-btn:hover:not(.active){border-color:var(--accent);color:var(--text);}
+  .page-info{text-align:center;margin-top:6px;font-size:10px;color:#555;}
+  .footer{text-align:center;margin-top:28px;padding-top:14px;border-top:1px solid #222;}
+  .footer p{font-size:11px;color:#555;line-height:1.6;}
+  .loading{text-align:center;padding:40px;}
+  .spinner{width:32px;height:32px;border:3px solid #333;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
 <div class="container">
-
-  <!-- 프로필 -->
   <div class="profile">
     <div class="profile-img">🔥</div>
     <h1><span>가성비 추천템</span> 모음</h1>
     <p>매일 업데이트되는 꿀템 리스트<br>쿠팡 최저가 링크 모음</p>
   </div>
-
-  <!-- SNS 링크 -->
   <div class="social-links">
     <a href="#" class="social-btn" id="youtube-link" title="유튜브">🎬</a>
-    <a href="#" class="social-btn" id="inpock-link" title="전체 링크">🔗</a>
+    <a href="#" class="social-btn" id="extra-link" title="전체 링크">🔗</a>
   </div>
-
-  <!-- 카테고리 탭 -->
-  <div class="tabs" id="tabs">
-    <button class="tab active" data-cat="all">전체</button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="상품명 검색...">
+    <button class="search-clear" id="searchClear">✕</button>
   </div>
-
-  <!-- 상품 목록 -->
+  <div class="tabs" id="tabs"><button class="tab active" data-cat="all">전체</button></div>
+  <div class="result-count" id="resultCount"></div>
   <div class="products" id="products">
-    <div class="loading">
-      <div class="spinner"></div>
-      <p style="color:#999;font-size:13px;">상품 불러오는 중...</p>
-    </div>
+    <div class="loading"><div class="spinner"></div><p style="color:#999;font-size:13px;">상품 불러오는 중...</p></div>
   </div>
-
-  <!-- 푸터 -->
+  <div class="pagination" id="pagination"></div>
+  <div class="page-info" id="pageInfo"></div>
   <div class="footer">
     <p>본 페이지에는 쿠팡 파트너스 활동의 일환으로<br>일정액의 수수료를 제공받는 링크가 포함되어 있습니다.</p>
   </div>
 </div>
-
 <script>
-// ── 설정 ──
-const CONFIG = {
-  productsUrl: './products.json',       // 상품 데이터 URL
-  youtubeUrl: '',                        // 유튜브 채널 URL
-  inpockUrl: 'https://link.inpock.co.kr/cheap_best_list',
-  newDays: 3,                            // NEW 뱃지 표시 기간(일)
-  categoryEmojis: {
-    '전체': '🔥', '생활': '🏠', '주방': '🍳', '뷰티': '💄',
-    '패션': '👗', 'IT': '📱', '캠핑': '⛺', '운동': '💪',
-    '식품': '🍜', '기타': '📦'
-  }
+var CONFIG={
+  productsUrl:'./products.json',
+  youtubeUrl:'',
+  extraUrl:'https://link.inpock.co.kr/cheap_best_list',
+  newDays:3,
+  perPage:10,
+  categoryEmojis:{'전체':'🔥','생활':'🏠','주방':'🍳','뷰티':'💄','패션':'👗','IT':'📱','캠핑':'⛺','운동':'💪','식품':'🍜','기타':'📦'}
 };
+document.getElementById('youtube-link').href=CONFIG.youtubeUrl||'#';
+document.getElementById('extra-link').href=CONFIG.extraUrl;
 
-// ── SNS 링크 설정 ──
-document.getElementById('youtube-link').href = CONFIG.youtubeUrl || '#';
-document.getElementById('inpock-link').href = CONFIG.inpockUrl;
+var allProducts=[];
+var currentCat='all';
+var currentSearch='';
+var currentPage=1;
+var searchInput=document.getElementById('searchInput');
+var searchClear=document.getElementById('searchClear');
 
-// ── 상품 로드 ──
-let allProducts = [];
+searchInput.addEventListener('input',function(e){
+  currentSearch=e.target.value.trim().toLowerCase();
+  searchClear.classList.toggle('show',currentSearch.length>0);
+  currentPage=1;
+  renderProducts();
+});
+searchClear.addEventListener('click',function(){
+  searchInput.value='';
+  currentSearch='';
+  searchClear.classList.remove('show');
+  currentPage=1;
+  renderProducts();
+  searchInput.focus();
+});
 
-async function loadProducts() {
-  const container = document.getElementById('products');
-  try {
-    const res = await fetch(CONFIG.productsUrl + '?t=' + Date.now());
-    allProducts = await res.json();
-
-    // 최신순 정렬
-    allProducts.sort((a, b) => new Date(b.added_at || 0) - new Date(a.added_at || 0));
-
-    // 카테고리 탭 생성
+function loadProducts(){
+  fetch(CONFIG.productsUrl+'?t='+Date.now())
+  .then(function(res){return res.json();})
+  .then(function(data){
+    allProducts=data;
+    allProducts.sort(function(a,b){return new Date(b.added_at||0)-new Date(a.added_at||0);});
     buildTabs();
-    // 상품 렌더링
-    renderProducts('all');
-  } catch (e) {
-    container.innerHTML = '<div class="empty">아직 등록된 상품이 없습니다.<br>곧 추천템이 업데이트됩니다! 🎁</div>';
-  }
+    renderProducts();
+  })
+  .catch(function(){
+    document.getElementById('products').innerHTML='<div class="empty">아직 등록된 상품이 없습니다.<br>곧 추천템이 업데이트됩니다! 🎁</div>';
+    document.getElementById('resultCount').textContent='';
+    document.getElementById('pagination').innerHTML='';
+    document.getElementById('pageInfo').textContent='';
+  });
 }
 
-function buildTabs() {
-  const tabsEl = document.getElementById('tabs');
-  const cats = new Set(['all']);
-  allProducts.forEach(p => { if (p.category) cats.add(p.category); });
-
-  tabsEl.innerHTML = '';
-  cats.forEach(cat => {
-    const btn = document.createElement('button');
-    btn.className = 'tab' + (cat === 'all' ? ' active' : '');
-    btn.dataset.cat = cat;
-    btn.textContent = cat === 'all' ? '전체' : cat;
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+function buildTabs(){
+  var tabsEl=document.getElementById('tabs');
+  var cats=['all'];
+  allProducts.forEach(function(p){if(p.category&&cats.indexOf(p.category)===-1)cats.push(p.category);});
+  tabsEl.innerHTML='';
+  cats.forEach(function(cat){
+    var btn=document.createElement('button');
+    btn.className='tab'+(cat==='all'?' active':'');
+    btn.dataset.cat=cat;
+    btn.textContent=cat==='all'?'전체':cat;
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
       btn.classList.add('active');
-      renderProducts(cat);
+      currentCat=cat;
+      currentPage=1;
+      renderProducts();
     });
     tabsEl.appendChild(btn);
   });
 }
 
-function renderProducts(category) {
-  const container = document.getElementById('products');
-  const filtered = category === 'all'
-    ? allProducts
-    : allProducts.filter(p => p.category === category);
+function highlightText(text,query){
+  if(!query)return text;
+  var escaped=query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return text.replace(new RegExp('('+escaped+')','gi'),'<mark>$1</mark>');
+}
 
-  if (filtered.length === 0) {
-    container.innerHTML = '<div class="empty">이 카테고리에는 아직 상품이 없어요 😅</div>';
+function getFiltered(){
+  var filtered=currentCat==='all'?allProducts:allProducts.filter(function(p){return p.category===currentCat;});
+  if(currentSearch){
+    filtered=filtered.filter(function(p){return p.product_name.toLowerCase().indexOf(currentSearch)!==-1;});
+  }
+  return filtered;
+}
+
+function renderProducts(){
+  var container=document.getElementById('products');
+  var countEl=document.getElementById('resultCount');
+  var filtered=getFiltered();
+
+  if(filtered.length===0){
+    container.innerHTML=currentSearch
+      ?'<div class="empty">"'+currentSearch+'" 검색 결과가 없어요 😅<br>다른 키워드로 검색해 보세요!</div>'
+      :'<div class="empty">이 카테고리에는 아직 상품이 없어요 😅</div>';
+    countEl.textContent=currentSearch?'검색 결과 0개':'';
+    document.getElementById('pagination').innerHTML='';
+    document.getElementById('pageInfo').textContent='';
     return;
   }
 
-  const now = new Date();
-  container.innerHTML = filtered.map((p, i) => {
-    const isNew = p.added_at && (now - new Date(p.added_at)) < CONFIG.newDays * 86400000;
-    const emoji = CONFIG.categoryEmojis[p.category] || CONFIG.categoryEmojis['기타'];
-    const newBadge = isNew ? '<span class="badge-new">NEW</span>' : '';
-    return `
-      <a href="${p.affiliate_url}" target="_blank" rel="noopener" class="product-card"
-         style="animation-delay:${i * 0.06}s">
-        <div class="card-emoji">${emoji}</div>
-        <div class="card-info">
-          <h3>${p.product_name}${newBadge}</h3>
-          <p>${p.description || '쿠팡 최저가 확인하기'}</p>
-        </div>
-        <div class="card-arrow">›</div>
-      </a>`;
-  }).join('');
+  var totalPages=Math.ceil(filtered.length/CONFIG.perPage);
+  if(currentPage>totalPages)currentPage=totalPages;
+  var startIdx=(currentPage-1)*CONFIG.perPage;
+  var endIdx=Math.min(startIdx+CONFIG.perPage,filtered.length);
+  var pageItems=filtered.slice(startIdx,endIdx);
+
+  countEl.textContent=currentSearch
+    ?'"'+currentSearch+'" 검색 결과 '+filtered.length+'개'
+    :'총 '+filtered.length+'개 상품';
+
+  var now=new Date();
+  var html='';
+  for(var i=0;i<pageItems.length;i++){
+    var p=pageItems[i];
+    var globalIdx=startIdx+i;
+    var isNew=p.added_at&&(now-new Date(p.added_at))<CONFIG.newDays*86400000;
+    var emoji=CONFIG.categoryEmojis[p.category]||CONFIG.categoryEmojis['기타'];
+    var newBadge=isNew?'<span class="badge-new">NEW</span>':'';
+    var num='<span class="badge-num">'+(globalIdx+1)+'</span>';
+    var name=highlightText(p.product_name,currentSearch);
+    var thumb;
+    if(p.image_url){
+      thumb='<div class="card-thumb"><img src="'+p.image_url+'" alt="'+p.product_name+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<span class=card-thumb-emoji>'+emoji+'</span>\'"></div>';
+    }else{
+      thumb='<div class="card-thumb"><span class="card-thumb-emoji">'+emoji+'</span></div>';
+    }
+    html+='<a href="'+p.affiliate_url+'" target="_blank" rel="noopener" class="product-card" style="animation-delay:'+Math.min(i*0.05,0.5)+'s">'
+      +thumb
+      +'<div class="card-info"><h3>'+num+name+newBadge+'</h3>'
+      +'<p>'+(p.description||'쿠팡 최저가 확인하기')+'</p></div>'
+      +'<div class="card-arrow">›</div></a>';
+  }
+  container.innerHTML=html;
+
+  renderPagination(totalPages,filtered.length,startIdx+1,endIdx);
 }
 
-// 초기 로드
+function renderPagination(totalPages,total,from,to){
+  var pagEl=document.getElementById('pagination');
+  var infoEl=document.getElementById('pageInfo');
+
+  if(totalPages<=1){
+    pagEl.innerHTML='';
+    infoEl.textContent='';
+    return;
+  }
+
+  var html='';
+
+  if(currentPage>1){
+    html+='<button class="page-btn" data-page="'+(currentPage-1)+'">‹</button>';
+  }
+
+  var startPage=Math.max(1,currentPage-2);
+  var endPage=Math.min(totalPages,startPage+4);
+  if(endPage-startPage<4)startPage=Math.max(1,endPage-4);
+
+  for(var pg=startPage;pg<=endPage;pg++){
+    html+='<button class="page-btn'+(pg===currentPage?' active':'')+'" data-page="'+pg+'">'+pg+'</button>';
+  }
+
+  if(currentPage<totalPages){
+    html+='<button class="page-btn" data-page="'+(currentPage+1)+'">›</button>';
+  }
+
+  pagEl.innerHTML=html;
+  infoEl.textContent=from+'~'+to+' / 총 '+total+'개';
+
+  pagEl.querySelectorAll('.page-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      currentPage=parseInt(this.dataset.page);
+      renderProducts();
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+}
+
 loadProducts();
 </script>
 </body>
