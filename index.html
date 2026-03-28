@@ -76,7 +76,6 @@
   </div>
   <div class="social-links">
     <a href="#" class="social-btn" id="youtube-link" title="유튜브">🎬</a>
-    <a href="#" class="social-btn" id="extra-link" title="전체 링크">🔗</a>
   </div>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
@@ -98,13 +97,11 @@
 var CONFIG={
   productsUrl:'./products.json',
   youtubeUrl:'',
-  extraUrl:'https://link.inpock.co.kr/cheap_best_list',
   newDays:3,
   perPage:10,
   categoryEmojis:{'전체':'🔥','생활':'🏠','주방':'🍳','뷰티':'💄','패션':'👗','IT':'📱','캠핑':'⛺','운동':'💪','식품':'🍜','기타':'📦'}
 };
 document.getElementById('youtube-link').href=CONFIG.youtubeUrl||'#';
-document.getElementById('extra-link').href=CONFIG.extraUrl;
 
 var allProducts=[];
 var currentCat='all';
@@ -228,41 +225,32 @@ function renderProducts(){
       +'<div class="card-arrow">›</div></a>';
   }
   container.innerHTML=html;
-
   renderPagination(totalPages,filtered.length,startIdx+1,endIdx);
 }
 
 function renderPagination(totalPages,total,from,to){
   var pagEl=document.getElementById('pagination');
   var infoEl=document.getElementById('pageInfo');
-
   if(totalPages<=1){
     pagEl.innerHTML='';
     infoEl.textContent='';
     return;
   }
-
   var html='';
-
   if(currentPage>1){
     html+='<button class="page-btn" data-page="'+(currentPage-1)+'">‹</button>';
   }
-
   var startPage=Math.max(1,currentPage-2);
   var endPage=Math.min(totalPages,startPage+4);
   if(endPage-startPage<4)startPage=Math.max(1,endPage-4);
-
   for(var pg=startPage;pg<=endPage;pg++){
     html+='<button class="page-btn'+(pg===currentPage?' active':'')+'" data-page="'+pg+'">'+pg+'</button>';
   }
-
   if(currentPage<totalPages){
     html+='<button class="page-btn" data-page="'+(currentPage+1)+'">›</button>';
   }
-
   pagEl.innerHTML=html;
   infoEl.textContent=from+'~'+to+' / 총 '+total+'개';
-
   pagEl.querySelectorAll('.page-btn').forEach(function(btn){
     btn.addEventListener('click',function(){
       currentPage=parseInt(this.dataset.page);
